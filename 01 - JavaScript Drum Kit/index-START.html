@@ -59,7 +59,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  const allKeys = document.querySelectorAll('.key')
+  const allAudios = [...document.querySelectorAll('audio')].reduce((map, currentValue) => {
+    map[`${currentValue.attributes['data-key'].value}`] = currentValue
+    return map
+  }, {})
 
+  let currentAudio
+  document.addEventListener('keydown', (event) => {
+    // console.log(event.key)
+    console.log(event.keyCode)
+    const keyCode = event.keyCode
+    for (let key of allKeys) {
+      if (keyCode == key.attributes['data-key'].value) {
+        if (currentAudio) {
+          currentAudio.currentTime = 0;
+        }
+        key.classList.add("playing")
+        currentAudio = allAudios[keyCode]
+        currentAudio.play()
+        setTimeout(() => key.classList.remove("playing"), 200)
+        break
+      }
+    }
+  })
+
+  
 </script>
 
 

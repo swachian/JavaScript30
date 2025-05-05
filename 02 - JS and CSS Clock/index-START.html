@@ -58,17 +58,50 @@
     }
 
     .hand {
-      width: 50%;
       height: 6px;
       background: black;
       position: absolute;
+      transform-origin: 100%;
+      transform: rotate(80deg);
       top: 50%;
+      right: 50%; /* 关键：右侧起点对齐中心 */
     }
 
+    .hour-hand {
+      width: 30%;
+
+
+    }
+    .min-hand {
+      width: 40%;
+
+
+    }
+    .second-hand {
+      width: 50%;
+
+
+    }
   </style>
 
   <script>
 
+    const minHand = document.querySelector(".min-hand")
+    const secondHand = document.querySelector(".second-hand")
+    const hourHand = document.querySelector(".hour-hand")
+
+    let secondRotate = 1;
+    setInterval(function(e) {
+      // alert('rotate(${secondRotate}deg)')
+      let now = new Date();
+      let hours = now.getHours() % 12;   // 时 (0-23)
+      let minutes = now.getMinutes(); // 分 (0-59)
+      let seconds = now.getSeconds(); // 秒 (0-59)
+      secondHand.style.transform = `rotate(${seconds*360.0/60+90}deg)`
+      minHand.style.transform = `rotate(${minutes*360.0/60+90}deg)`
+      hourHand.style.transform = `rotate(${hours*360.0/12+90}deg)`
+      console.log(`rotate(${minutes*360.0/60+90}deg)`)
+    }, 1000)
 
   </script>
 </body>
