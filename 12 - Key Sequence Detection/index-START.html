@@ -7,6 +7,20 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      const secret = "danny"
+      let keylist = []
+      document.addEventListener("keyup", check)
+      function check(e) {
+        keylist.push(e.key)
+        if (keylist.length == secret.length) {
+          if (keylist.join('') === secret) {
+            cornify_add()
+          }
+          keylist.shift()
+        }
+      }
+
+    </script>
   </body>
 </html>

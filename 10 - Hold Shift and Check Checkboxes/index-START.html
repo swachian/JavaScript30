@@ -97,6 +97,47 @@
   </div>
 
 <script>
+  let checkboxes = document.querySelectorAll("input[type='checkbox']")
+  registerClick()
+
+
+  function registerClick() {
+    let lastClicked
+    const checkboxesArr = [...checkboxes]
+    checkboxes.forEach( checkbox => {
+      checkbox.addEventListener("click", batchSelect)
+    })
+    function batchSelect(e) {
+      if (e.getModifierState('Shift')) {
+        if (this.checked) {
+          let checkedList
+          let index = checkboxesArr.indexOf(this)
+          if (lastClicked) {
+            let lastClickedIndex = checkboxesArr.indexOf(lastClicked)
+            checkedList = checkFromTo(index, lastClickedIndex)
+          } else {
+            checkedList = checkboxesArr.slice(index)
+          }
+          checkedList.forEach(checkbox => {
+            checkbox.checked = true
+          })
+        }
+      }
+      lastClicked = this
+    }
+
+    function checkFromTo(a, b) {
+      if (a > b) {
+        let c = a
+        a = b
+        b = c
+      }
+      return checkboxesArr.slice(a, b)
+
+    }
+
+  }
+
 </script>
 </body>
 </html>
