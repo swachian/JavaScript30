@@ -43,6 +43,13 @@
       age: 80
     };
 
+    const person2 = {...person}
+    person2.score = 99
+    const person3 = Object.assign({}, person, {score: 77})
+    console.log(person)
+    console.log(person2)
+    console.log(person3)
+    
     // and think we make a copy:
 
     // how do we take a copy instead?
