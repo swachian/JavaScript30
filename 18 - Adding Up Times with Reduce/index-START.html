@@ -183,6 +183,18 @@
     </li>
   </ul>
 <script>
+  const dataTimes = [...document.querySelectorAll('[data-time]')]
+  const seconds = dataTimes.map(dt => dt['dataset'].time)
+                            .map(dt => {
+                              const [mins, seconds] = dt.split(':').map(parseFloat)
+                              return mins*60+seconds
+                            })
+                            .reduce( (sum, divsecond) => sum += divsecond)
+  let hour = Math.floor(seconds/3600)
+  let secondsLeft = seconds - hour*3600
+  let min = Math.floor(secondsLeft/60)
+  secondsLeft = secondsLeft - min*60
+  console.log(`hour: ${hour}, min: ${min}, second: ${secondsLeft}`)
 </script>
 </body>
 </html>
