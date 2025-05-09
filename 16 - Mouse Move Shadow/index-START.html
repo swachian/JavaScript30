@@ -36,6 +36,25 @@
   </style>
 
 <script>
+  const hero = document.querySelector(".hero")
+  const h1 = document.querySelector(".hero > h1")
+
+  function handleHeroMouseover(e) {
+    if (!e.target.matches("h1")) {
+      return
+    }
+    const {offsetX: offsetX, offsetY: offsetY, x: x, y: y} = e
+
+    console.log({offsetX, offsetY, x, y})
+    console.log(h1.style)
+    h1.style.textShadow = `
+      ${-offsetX}px ${offsetY+10}px 5px red,
+      ${2*offsetX}px ${-(offsetY+10)}px 5px green,
+      ${offsetX+30}px ${(offsetY+30)}px 1px blue
+    `;
+    console.log(h1)
+  }
+  h1.addEventListener("mousemove", handleHeroMouseover)
 </script>
 </body>
 </html>
