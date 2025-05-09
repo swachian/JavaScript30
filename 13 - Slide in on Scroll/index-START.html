@@ -44,21 +44,41 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
-      var timeout;
+
+    function debounce(func, delay = 200) {
+      let timeout
       return function() {
-        var context = this, args = arguments;
-        var later = function() {
-          timeout = null;
-          if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-      };
+        let context = this
+        let arg = arguments
+        let laterFun = function() {
+          func.apply(context, arg)
+        }
+        if (timeout) {
+          clearTimeout(timeout)
+        }
+        timeout = setTimeout(laterFun, delay)
+      }
     }
 
+
+    const slideinImages = document.querySelectorAll(".slide-in")
+
+    function handleScroll(event) {
+      const windowBottom = window.scrollY + window.innerHeight
+      // console.log(windowBottom)
+      console.log(`img ${slideinImages[0].offsetTop}, ${windowBottom}`)
+      
+      slideinImages.forEach(slideinImage => {
+        if (slideinImage.offsetTop < windowBottom && window.scrollY < slideinImage.offsetTop + slideinImage.height) {
+          slideinImage.classList.add("active")
+        } else {
+          slideinImage.classList.remove("active")
+        }
+      })
+
+    }
+
+    window.addEventListener("scroll", debounce(handleScroll, 200))
   </script>
 
   <style>
