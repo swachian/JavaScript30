@@ -36,7 +36,13 @@
       }
   });
 
-  recognition.addEventListener('end', recognition.start);
+  // recognition.addEventListener('end', recognition.start);
+
+  recognition.addEventListener('end', () => {
+    setTimeout(() => {
+      recognition.start(); // 延迟 500ms 重启
+    }, 2);
+  });
 
   recognition.start();
 

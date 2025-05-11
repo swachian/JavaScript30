@@ -12,6 +12,24 @@
 
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new window.SpeechRecognition();
+  recognition.lang = 'en-EN';
+  // recognition.interimResults = true;
+
+  function handleResult(result) {
+    const script = [...result.results].map(element => {
+      return element[0].transcript
+    }).join('');
+    console.log(`${new Date()}` + script)
+  }
+  recognition.addEventListener('result', handleResult)
+
+  // recognition.continuous = true; // 自动持续识别
+  recognition.start();
+
+  recognition.addEventListener('end', () => {
+    recognition.start(); // 仅在用户未手动停止时重启
+  })
 
 
 </script>
