@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>👀👀👀Follow Along Nav</title>
+  <title>Follow Along Nav</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
@@ -27,7 +27,32 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const highlight = document.createElement("span")
+    highlight.classList.add("highlight")
+    // highlight.style.width = '900px'
+
+    document.querySelector("nav").appendChild(highlight)
+
+    function highlightHandle(e) {
+      console.dir(`${this.offsetLeft}px`)
+      highlight.style.width = `${this.clientWidth}px`
+      highlight.style.height = `${this.clientHeight}px`
+      highlight.style.top = `${this.offsetTop}px`
+      highlight.style.left = `${this.offsetLeft}px`
+
+    
+      console.dir(highlight)
+    }
+
+    
+    function highlightHandleMoustout(e) {
+      highlight.style.width = `0px`
+      highlight.style.height = `0px`
+    }
+
+    const links = [...document.querySelectorAll(".menu li a")]
+    links.forEach(link => link.addEventListener("mouseover", highlightHandle))
+    links.forEach(link => link.addEventListener("mouseout", highlightHandleMoustout))
   </script>
 </body>
 </html>
