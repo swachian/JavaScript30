@@ -167,7 +167,7 @@
       transform-origin: 50% 0;
       display: flex;
       justify-content: center;
-      opacity: 0;
+      opacity: 1;
     }
 
     .dropdownBackground.open {
@@ -234,6 +234,41 @@
   </style>
 
   <script>
+
+    const childrenLiOfUl = document.querySelectorAll("ul.cool > li")
+    const dropdownBackground = document.querySelector(".dropdownBackground")
+
+    function handlMouseOver(e) {
+      dropdownBackground.classList.add('open')
+      this.classList.add('trigger-enter')
+      this.classList.add('trigger-enter-active')
+      const dropdown = this.querySelector(".dropdown")
+      dropdownBackground.style.width = `${dropdown.clientWidth}px`
+      dropdownBackground.style.height = `${dropdown.clientHeight}px`
+      console.log(this.getBoundingClientRect())
+      console.log(dropdown.getBoundingClientRect())
+      const {x, y} = getElementPosition(dropdown)
+      dropdownBackground.style.transform = `translate(${x}px, ${y}px)`
+    }
+
+    function getElementPosition(element) {
+      const rect = element.getBoundingClientRect();
+      console.log({rect})
+      return {
+        x: rect.left + window.scrollX,
+        y: rect.top 
+      };
+    }
+    function handlMouseOut(e) {
+      dropdownBackground.classList.remove('open')
+      this.classList.remove('trigger-enter')
+      this.classList.remove('trigger-enter-active')
+
+    }
+
+    childrenLiOfUl.forEach(li => li.addEventListener('mouseover', handlMouseOver))
+    childrenLiOfUl.forEach(li => li.addEventListener('mouseout', handlMouseOut))
+
     let p = new Promise(function (resolve, reject) {
       setTimeout(function () {
         if (Math.random() > 0.5) {
