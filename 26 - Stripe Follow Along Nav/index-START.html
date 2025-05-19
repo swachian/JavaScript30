@@ -237,6 +237,7 @@
 
     const childrenLiOfUl = document.querySelectorAll("ul.cool > li")
     const dropdownBackground = document.querySelector(".dropdownBackground")
+    const nav = document.querySelector("nav")
 
     function handlMouseOver(e) {
       dropdownBackground.classList.add('open')
@@ -247,18 +248,16 @@
       dropdownBackground.style.height = `${dropdown.clientHeight}px`
       console.log(this.getBoundingClientRect())
       console.log(dropdown.getBoundingClientRect())
-      const {x, y} = getElementPosition(dropdown)
-      dropdownBackground.style.transform = `translate(${x}px, ${y}px)`
+      const navRect = nav.getBoundingClientRect()
+      const dropdownRect = dropdown.getBoundingClientRect()
+      const rect = {
+        x: dropdownRect.x - navRect.x,
+        y: dropdownRect.y - navRect.y
+      }
+      dropdownBackground.style.transform = `translate(${rect.x}px, ${rect.y}px)`
     }
 
-    function getElementPosition(element) {
-      const rect = element.getBoundingClientRect();
-      console.log({rect})
-      return {
-        x: rect.left + window.scrollX,
-        y: rect.top 
-      };
-    }
+
     function handlMouseOut(e) {
       dropdownBackground.classList.remove('open')
       this.classList.remove('trigger-enter')

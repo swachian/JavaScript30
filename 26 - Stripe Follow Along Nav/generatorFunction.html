@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>modelProvider Demo</title>
+</head>
+
+<body>
+    <h2>modelProvider Generator Example</h2>
+    <pre id="output">Running...</pre>
+
+    <script type="module">
+        function modelProvider(generatorFn) {
+            const dataStore = {
+                'cart.items': [
+                    { id: 1, name: 'Apple', price: 3 },
+                    { id: 2, name: 'Orange', price: 5 },
+                    { id: 3, name: 'Banana', price: 2 }
+                ],
+                'products.2': {
+                    id: 2,
+                    name: 'Orange',
+                    price: 5,
+                    description: 'Juicy and sweet!'
+                }
+            };
+
+            const outputEl = document.getElementById('output');
+            const iterator = generatorFn();
+
+            function handleNext(input) {
+                const { value, done } = iterator.next(input);
+                if (done) return;
+
+                const result = dataStore[value];
+                outputEl.textContent += `\nYielded: "${value}" => ${JSON.stringify(result, null, 2)}`;
+                console.log(`Yielded: "${value}" =>`, result);
+                handleNext(result);
+            }
+
+            handleNext();
+        }
+
+        modelProvider(function* () {
+            const items = yield 'cart.items';
+            const item = items.reduce(
+                (left, right) => left.price > right.price ? left : right
+            );
+            const details = yield `products.${item.id}`;
+            document.getElementById('output').textContent += `\n\nMost expensive item details:\n${JSON.stringify(details, null, 2)}`;
+            console.log('Most expensive item details:', details);
+        });
+
+
+        function* numbers() {
+            try {
+                yield 1
+                return -1
+            } finally {
+                yield 2
+                yield 3
+            }
+            yield 4
+            yield 5
+        }
+
+        const g = numbers()
+        const p = numbers()
+
+        async function foo() {
+            return 123;
+        }
+
+        let r = foo()
+        console.log(await foo())
+
+        const map = new Map()
+        map.set(1, "china")
+        map.set("book", "cherry")
+        map.set(() => console.log("aa"), "wanz")
+        console.log([...map])
+        map.forEach((v, k) => console.log(k))
+    </script>
+
+</body>
+
+</html>
