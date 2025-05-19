@@ -36,6 +36,40 @@
   </div>
 
 <script>
+  const items = document.querySelector('.items')
+  let isDown = false
+  let start = 0
+  let startScrollLeft = 0
+
+  items.addEventListener('mousedown', e => {
+    isDown = true
+    items.classList.add('active')
+    start = e.pageX
+    startScrollLeft = items.scrollLeft
+    console.log(e.pageX)
+  })
+
+  items.addEventListener('mousemove', e => {
+    if (isDown) {
+      let current = e.pageX
+      let walk = current - start
+      console.log({walk})
+      items.scrollLeft = startScrollLeft - walk*3
+    }
+  })
+
+  items.addEventListener('mouseup', e => {
+    isDown = false
+    items.classList.remove('active')
+
+  })
+
+
+  items.addEventListener('mouseleave', e => {
+    isDown = false
+    items.classList.remove('active')
+
+  })
 </script>
 
   </body>
