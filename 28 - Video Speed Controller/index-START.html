@@ -9,13 +9,41 @@
 <body>
 
   <div class="wrapper">
-    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <video class="flex" width="765" height="430" src="./Meeting_Recording.mp4" loop controls></video>
     <div class="speed">
       <div class="speed-bar">1×</div>
     </div>
   </div>
 
+
+
 <script>
+  const speed = document.querySelector(".speed")
+  const speedBar = speed.querySelector(".speed-bar")
+  const video = document.querySelector("video.flex")
+
+  let isDown = false
+
+  const min = 0.3
+  const max = 5
+  function handleMousemove(e) {
+    console.log(isDown)
+    if (isDown) {
+      const offset = e.pageY - this.offsetTop
+      const barHeight = this.offsetHeight
+      const percent = (offset/barHeight)
+      speedBar.style.height = `${percent*100}%`
+      const videoPlaybackRate = (percent*(max)).toFixed(2)
+      speedBar.textContent = videoPlaybackRate + 'x'
+      video.playbackRate = videoPlaybackRate
+      console.log(barHeight)
+    }
+  }
+  speed.addEventListener("mousedown", e => isDown = true)
+  speed.addEventListener("mouseup", e => isDown = false)
+  speed.addEventListener("mouseleave", e => isDown = false)
+
+  speed.addEventListener("mousemove", handleMousemove)
 </script>
 </body>
 </html>
