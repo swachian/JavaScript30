@@ -38,6 +38,41 @@
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
 
+  let started = false
+  let currentHole
+  let score = 0
+
+  function startGame() {
+    const MAX = 10
+    let count = 0
+    score = 0
+    scoreBoard.textContent = score
+    started = true
+    const appearInterval = setInterval(() => {
+      if (currentHole !== undefined) {
+        holes[currentHole].classList.remove("up")
+      }
+      if (count++ > MAX) {
+        clearInterval(appearInterval)
+        return
+      }
+      currentHole = Math.floor(Math.random()*holes.length)
+      holes[currentHole].classList.add("up")
+
+    }, 2000)
+  }
+
+  function hit(e) {
+    console.log(this)
+    if (this.classList.contains("up")) {
+      score++
+      scoreBoard.textContent = score
+      this.classList.remove("up")
+    }
+  }
+
+  holes.forEach( hole => hole.addEventListener('click', hit))
+
 </script>
 </body>
 </html>
